@@ -35,15 +35,15 @@
 
     while (currentHeight < totalHeight + margin) {
 
-      var y = heightCount*margin;
+      var y = -margin + heightCount*margin;
 
       while (currentWidth < totalWidth + margin) {
 
         var x;
         if (heightCount%2 == 0) {
-          x = widthCount*margin;
+          x = -margin + widthCount*margin;
         } else {
-          x = widthCount*margin + (margin/2);
+          x = -margin + widthCount*margin + (margin/2);
         }
 
         var centerPoint = new Point(x, y);
