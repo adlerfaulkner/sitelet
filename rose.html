@@ -2,8 +2,76 @@
 <html>
 <head>
   <title>Sitelet | Rose</title>
-</head>
-<body>
+  <script type="text/javascript" src="http://www.shinyatk.com/paper.js"></script>
+  <script type="text/paperscript" canvas="canvas">
+    var totalHeight = view.size.height;
+    var totalWidth = view.size.width;
+    var dotRadius = 12;
+    var margin = 75;
 
+    var rectLayer = project.activeLayer;
+    var dotLayer = new paper.Layer();
+    var roseLayer = new paper.Layer();
+
+    rectLayer.activate();
+    var rect = new Path.Rectangle({
+        point: [0, 0],
+        size: [view.size.width, view.size.height]
+    });
+    rect.sendToBack();
+    rect.fillColor = '#EACC9E';
+
+    dotLayer.activate();
+    var path = new Path.Circle({
+      center: [0, 0],
+      radius: dotRadius,
+    });
+    var dotColor = "#F6CE92"
+
+    var currentHeight = -margin;
+    var heightCount = 0;
+    var currentWidth = -margin;
+    var widthCount = 0;
+
+    while (currentHeight < totalHeight + margin) {
+
+      var y = heightCount*margin;
+
+      while (currentWidth < totalWidth + margin) {
+
+        var x;
+        if (heightCount%2 == 0) {
+          x = widthCount*margin;
+        } else {
+          x = widthCount*margin + (margin/2);
+        }
+
+        var centerPoint = new Point(x, y);
+        var circle = path.clone();
+        circle.position = centerPoint;
+        circle.fillColor = dotColor;
+
+        widthCount ++;
+        currentWidth += margin;
+      }
+      widthCount = 0;
+      currentWidth = -margin;
+      heightCount ++;
+      currentHeight += margin;
+    }
+
+    // function onFrame(event) {
+    //   for (var i = 0; i < circles.length; i++) {
+    //       var circle = circles[i];
+    //       circle.fillColor.hue += 1;
+    //   }
+    // }
+    // function onResize(event) {
+    //
+    // }
+  </script>
+</head>
+<body style="padding: 0; margin: 0;">
+  <canvas id="canvas" resize></canvas>
 </body>
 </html>
