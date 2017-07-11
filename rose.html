@@ -2,7 +2,7 @@
 <html>
 <head>
   <title>Sitelet | Rose</title>
-  <script type="text/javascript" src="http://www.shinyatk.com/paper.js"></script>
+  <script type="text/javascript" src="paper-full.min.js"></script>
   <script type="text/paperscript" canvas="canvas">
     var totalHeight = view.size.height;
     var totalWidth = view.size.width;
@@ -18,7 +18,6 @@
         point: [0, 0],
         size: [view.size.width, view.size.height]
     });
-    rect.sendToBack();
     rect.fillColor = '#FFF8CC';
 
     dotLayer.activate();
@@ -60,6 +59,8 @@
       currentHeight += margin;
     }
 
+    roseLayer.activate()
+
     function onMouseMove(event) {
         var edx, edy = null;
 
@@ -70,30 +71,32 @@
         var xTop = edx/400 * 25;
         var yTop = edy/400 * 25;
         dotLayer.translate(xTop,yTop);
-
-        // //middle one bit less
-        // var xMid = edx/400 * 25;
-        // var yMid = edy/400 * 25;
-        // midLayer.translate(xMid,yMid);
-        //
-        // //and the bottom one - just a bit
-        // var xBottom = edx/400 * 12;
-        // var yBottom = edy/400 * 12;
-        // bottomLayer.translate(xBottom,yBottom);
-
     }
-    // function onFrame(event) {
-    //   for (var i = 0; i < circles.length; i++) {
-    //       var circle = circles[i];
-    //       circle.fillColor.hue += 1;
-    //   }
-    // }
-    // function onResize(event) {
     //
+    // function onResize(event) {
+    //   rect.set({
+    //       point: [0, 0],
+    //       size: [view.size.width, view.size.height]
+    //   });
     // }
+
   </script>
+  <style type="text/css">
+    html,
+    body {
+        margin: 0;
+        overflow: hidden;
+        height: 100%;
+    }
+
+    /* Scale canvas with resize attribute to full size */
+    canvas[resize] {
+        width: 100%;
+        height: 100%;
+    }
+</style>
 </head>
-<body style="padding: 0; margin: 0;">
+<body>
   <canvas id="canvas" resize></canvas>
 </body>
 </html>
