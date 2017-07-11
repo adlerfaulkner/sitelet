@@ -6,8 +6,8 @@
   <script type="text/paperscript" canvas="canvas">
     var totalHeight = view.size.height;
     var totalWidth = view.size.width;
-    var dotRadius = 12;
-    var margin = 75;
+    var dotRadius = 15;
+    var margin = 100;
 
     var rectLayer = project.activeLayer;
     var dotLayer = new paper.Layer();
@@ -19,16 +19,16 @@
         size: [view.size.width, view.size.height]
     });
     rect.sendToBack();
-    rect.fillColor = '#EACC9E';
+    rect.fillColor = '#FFF8CC';
 
     dotLayer.activate();
     var path = new Path.Circle({
       center: [0, 0],
       radius: dotRadius,
     });
-    var dotColor = "#F6CE92"
+    var dotColor = "#FFEB99"
 
-    var currentHeight = -margin;
+    var currentHeight = -margin*1.5;
     var heightCount = 0;
     var currentWidth = -margin;
     var widthCount = 0;
@@ -60,6 +60,28 @@
       currentHeight += margin;
     }
 
+    function onMouseMove(event) {
+        var edx, edy = null;
+
+        (event.delta.x < 400 )? edx = event.delta.x : 400;
+        (event.delta.y < 400 )? edy = event.delta.y : 400;
+
+        //move top layer the most
+        var xTop = edx/400 * 25;
+        var yTop = edy/400 * 25;
+        dotLayer.translate(xTop,yTop);
+
+        // //middle one bit less
+        // var xMid = edx/400 * 25;
+        // var yMid = edy/400 * 25;
+        // midLayer.translate(xMid,yMid);
+        //
+        // //and the bottom one - just a bit
+        // var xBottom = edx/400 * 12;
+        // var yBottom = edy/400 * 12;
+        // bottomLayer.translate(xBottom,yBottom);
+
+    }
     // function onFrame(event) {
     //   for (var i = 0; i < circles.length; i++) {
     //       var circle = circles[i];
