@@ -16,50 +16,61 @@
     rectLayer.activate();
     var rect = new Path.Rectangle({
         point: [0, 0],
-        size: [view.size.width, view.size.height]
+        size: [totalWidth, totalHeight]
     });
     rect.fillColor = '#FFF8CC';
 
-    dotLayer.activate();
-    var path = new Path.Circle({
-      center: [0, 0],
-      radius: dotRadius,
-    });
-    var dotColor = "#FFEB99"
+    drawCircles();
+    drawRose();
 
-    var currentHeight = -margin*1.5;
-    var heightCount = 0;
-    var currentWidth = -margin;
-    var widthCount = 0;
+    function drawCircles() {
+      dotLayer.removeChildren();
+      dotLayer.activate();
 
-    while (currentHeight < totalHeight + margin) {
+      var path = new Path.Circle({
+        center: [0, 0],
+        radius: dotRadius,
+      });
+      var dotColor = "#FFEB99";
 
-      var y = -margin + heightCount*margin;
+      var currentHeight = -margin*1.5;
+      var heightCount = 0;
+      var currentWidth = -margin;
+      var widthCount = 0;
 
-      while (currentWidth < totalWidth + margin) {
+      while (currentHeight < totalHeight + margin) {
 
-        var x;
-        if (heightCount%2 == 0) {
-          x = -margin + widthCount*margin;
-        } else {
-          x = -margin + widthCount*margin + (margin/2);
+        var y = -margin + heightCount*margin;
+
+        while (currentWidth < totalWidth + margin) {
+
+          var x;
+          if (heightCount%2 == 0) {
+            x = -margin + widthCount*margin;
+          } else {
+            x = -margin + widthCount*margin + (margin/2);
+          }
+
+          var centerPoint = new Point(x, y);
+          var circle = path.clone();
+          circle.position = centerPoint;
+          circle.fillColor = dotColor;
+
+          widthCount ++;
+          currentWidth += margin;
         }
-
-        var centerPoint = new Point(x, y);
-        var circle = path.clone();
-        circle.position = centerPoint;
-        circle.fillColor = dotColor;
-
-        widthCount ++;
-        currentWidth += margin;
+        widthCount = 0;
+        currentWidth = -margin;
+        heightCount ++;
+        currentHeight += margin;
       }
-      widthCount = 0;
-      currentWidth = -margin;
-      heightCount ++;
-      currentHeight += margin;
     }
 
-    roseLayer.activate()
+    function drawRose() {
+      roseLayer.activate();
+
+      
+    }
 
     function onMouseMove(event) {
         var edx, edy = null;
@@ -68,17 +79,20 @@
         (event.delta.y < 400 )? edy = event.delta.y : 400;
 
         //move top layer the most
-        var xTop = edx/400 * 25;
-        var yTop = edy/400 * 25;
-        dotLayer.translate(xTop,yTop);
+        var xDotTop = edx/400 * 18;
+        var yDotTop = edy/400 * 18;
+        dotLayer.translate(xDotTop,yDotTop);
+        var xRoseTop = edx/400 * 25;
+        var yRoseTop = edy/400 * 25;
+        roseLayer.translate(xRoseTop,yRoseTop);
     }
-    //
-    // function onResize(event) {
-    //   rect.set({
-    //       point: [0, 0],
-    //       size: [view.size.width, view.size.height]
-    //   });
-    // }
+
+    function onResize(event) {
+      totalHeight = view.size.height;
+      totalWidth = view.size.width;
+      rect.bounds = view.bounds
+      drawCircles();
+    }
 
   </script>
   <style type="text/css">
